@@ -7,19 +7,25 @@
 //
 
 import UIKit
+import Lottie
 
 class ViewController: UIViewController {
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet var panGesture: UIPanGestureRecognizer!
     
     var visualEffectView: UIView?
     var attachedImage: UIImageView!
+    let label = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 44))
     
     //Usage
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        view.addSubview(label)
+        
         print("Begin of code")
         if let url = URL(string: "https://vignette.wikia.nocookie.net/fantendo/images/6/6e/Small-mario.png/revision/latest?cb=2012071802411") {
             imageView.contentMode = .scaleAspectFit
@@ -28,11 +34,48 @@ class ViewController: UIViewController {
         
         print("End of code. The image will continue downloading in the background and it will be loaded when it ends.")
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "QuickActions_Share"), style: .done, target: self, action: #selector(handlerRightButton))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Add", style: .done, target: self, action: #selector(handlerLeftButton))
+        let shareRightButton = UIBarButtonItem(image: #imageLiteral(resourceName: "QuickActions_Share"), style: .done, target: self, action: #selector(handleShareButton))
+        shareRightButton.tintColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
+        let cloudRigthButton = UIBarButtonItem(image: #imageLiteral(resourceName: "QuickActions_Cloud"), style: .done, target: self, action: #selector(handleCloudButton))
+        cloudRigthButton.tintColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
+        let addedItemButton = UIBarButtonItem(title: "Add", style: .done, target: self, action: #selector(handleAddButton))
+        addedItemButton.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        let customButton = UIBarButtonItem(image: #imageLiteral(resourceName: "TabBar_More"), style: .done, target: self, action: #selector(handleLabelButton))
+        customButton.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+
+        navigationItem.leftBarButtonItems = [addedItemButton, customButton]
+        navigationItem.rightBarButtonItems = [shareRightButton, cloudRigthButton]
     }
     
-    @objc func handlerRightButton() {
+    @objc func handleLabelButton() {
+        label.text = "The image will continue downloading in the background"
+        label.font = UIFont.boldSystemFont(ofSize: 12)
+        label.numberOfLines = 0
+        label.isUserInteractionEnabled = false
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.textColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
+        
+        label.topAnchor.constraint(equalTo: imageView.topAnchor, constant: 10).isActive = true
+        label.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        label.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        label.heightAnchor.constraint(equalToConstant: 44).isActive = true
+    }
+    
+    @objc func handleCloudButton() {
+        let imageView = LOTAnimationView(name: "stopwatch.json")
+        imageView.play()
+        imageView.loopAnimation = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(imageView)
+        
+        imageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
+        imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+    }
+    
+    @objc func handleShareButton() {
         setupIsBlurred(isBlurred: true)
         let imageView = UIImageView(frame: CGRect(x: 120, y: 10, width: 40, height: 40))
         let alertMessage = UIAlertController(title: "New image", message: "Download Finished.", preferredStyle: .alert)
@@ -52,7 +95,7 @@ class ViewController: UIViewController {
         self.present(alertMessage, animated: true, completion: nil)
     }
     
-    @objc func handlerLeftButton() {
+    @objc func handleAddButton() {
         let alrt = UIAlertController(title: "Created by Гранченко Максим on 9/25/18.", message: "End of code. The image will continue downloading in the background and it will be loaded when it ends.", preferredStyle: .actionSheet)
         let cancel = UIAlertAction(title: "Dismiss", style: .cancel)
         
@@ -95,7 +138,7 @@ class ViewController: UIViewController {
             print("Download Finished")
             DispatchQueue.main.async() {
                 self.setupIsBlurred(isBlurred: true)
-                self.handlerRightButton()
+                self.handleShareButton()
                 self.activityIndicator.stopAnimating()
                 self.imageView.image = UIImage(data: data)
             }

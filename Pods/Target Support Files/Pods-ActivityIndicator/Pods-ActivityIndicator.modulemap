@@ -1,0 +1,6 @@
+framework module Pods_ActivityIndicator {
+  umbrella header "Pods-ActivityIndicator-umbrella.h"
+
+  export *
+  module * { export * }
+}
