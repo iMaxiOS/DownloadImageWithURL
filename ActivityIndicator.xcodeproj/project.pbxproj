@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5718B0F521AC387100517E30 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5718B0F421AC387100517E30 /* SecondViewController.swift */; };
 		575D2083215A5B4A002E33E4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575D2082215A5B4A002E33E4 /* AppDelegate.swift */; };
 		575D2085215A5B4A002E33E4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575D2084215A5B4A002E33E4 /* ViewController.swift */; };
 		575D2088215A5B4A002E33E4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 575D2086215A5B4A002E33E4 /* Main.storyboard */; };
@@ -19,6 +20,7 @@
 /* Begin PBXFileReference section */
 		1EDCB0F4FEFAE51808D76A80 /* Pods_ActivityIndicator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ActivityIndicator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		313AB74DC47E406B2B1C4B56 /* Pods-ActivityIndicator.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ActivityIndicator.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ActivityIndicator/Pods-ActivityIndicator.debug.xcconfig"; sourceTree = "<group>"; };
+		5718B0F421AC387100517E30 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		575D207F215A5B4A002E33E4 /* ActivityIndicator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ActivityIndicator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		575D2082215A5B4A002E33E4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		575D2084215A5B4A002E33E4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 				579179A521AC29B9009337DF /* Resours */,
 				575D2082215A5B4A002E33E4 /* AppDelegate.swift */,
 				575D2084215A5B4A002E33E4 /* ViewController.swift */,
+				5718B0F421AC387100517E30 /* SecondViewController.swift */,
 				575D2086215A5B4A002E33E4 /* Main.storyboard */,
 				575D2089215A5B4D002E33E4 /* Assets.xcassets */,
 				575D208B215A5B4D002E33E4 /* LaunchScreen.storyboard */,
@@ -220,6 +223,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5718B0F521AC387100517E30 /* SecondViewController.swift in Sources */,
 				575D2085215A5B4A002E33E4 /* ViewController.swift in Sources */,
 				575D2083215A5B4A002E33E4 /* AppDelegate.swift in Sources */,
 			);

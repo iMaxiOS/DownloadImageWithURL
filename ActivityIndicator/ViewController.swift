@@ -17,7 +17,10 @@ class ViewController: UIViewController {
     
     var visualEffectView: UIView?
     var attachedImage: UIImageView!
-    let label = UILabel(frame: CGRect(x: 0, y: 0, width: 0, height: 44))
+    let label = UILabel()
+    let pressendButton = UIButton(type: .system)
+    var ressetButton = UIButton(type: .system)
+    
     
     //Usage
     override func viewDidLoad() {
@@ -32,6 +35,9 @@ class ViewController: UIViewController {
             downloadImage(from: url)
         }
         
+        createPressedButton()
+        createRessetButton()
+        
         print("End of code. The image will continue downloading in the background and it will be loaded when it ends.")
         
         let shareRightButton = UIBarButtonItem(image: #imageLiteral(resourceName: "QuickActions_Share"), style: .done, target: self, action: #selector(handleShareButton))
@@ -42,7 +48,7 @@ class ViewController: UIViewController {
         addedItemButton.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         let customButton = UIBarButtonItem(image: #imageLiteral(resourceName: "TabBar_More"), style: .done, target: self, action: #selector(handleLabelButton))
         customButton.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-
+        
         navigationItem.leftBarButtonItems = [addedItemButton, customButton]
         navigationItem.rightBarButtonItems = [shareRightButton, cloudRigthButton]
     }
@@ -69,29 +75,29 @@ class ViewController: UIViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(imageView)
         
-        imageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
+        imageView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        imageView.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        imageView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: 120).isActive = true
     }
     
     @objc func handleShareButton() {
         setupIsBlurred(isBlurred: true)
         let imageView = UIImageView(frame: CGRect(x: 120, y: 10, width: 40, height: 40))
         let alertMessage = UIAlertController(title: "New image", message: "Download Finished.", preferredStyle: .alert)
-
+        
         let action = UIAlertAction(title: "OK", style: .default, handler: { action in
             self.setupIsBlurred(isBlurred: false)
         })
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-
+        
         action.setValue(#imageLiteral(resourceName: "more"), forKey: "image")
         cancel.setValue(#imageLiteral(resourceName: "star"), forKey: "image")
         alertMessage.view.tintColor = #colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1)
         alertMessage.addAction(action)
         alertMessage.addAction(cancel)
         alertMessage.view.addSubview(imageView)
-
+        
         self.present(alertMessage, animated: true, completion: nil)
     }
     
@@ -109,61 +115,108 @@ class ViewController: UIViewController {
         self.present(alrt, animated: true, completion: nil)
     }
     
-    func setupIsBlurred(isBlurred: Bool) {
-        if isBlurred {
-            if self.visualEffectView == nil {
-                let blurEffect = UIBlurEffect(style: .light)
-                let visualEffectView = UIVisualEffectView(effect: blurEffect)
-                
-                visualEffectView.frame = view.bounds
-                view.addSubview(visualEffectView)
-                self.visualEffectView = visualEffectView
-            }
-        } else {
-            visualEffectView?.removeFromSuperview()
-            visualEffectView = nil
-        }
-    }
-        
-    func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
-        URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
+    @objc func handlePressedButton() {
+        let secondVC = SecondViewController()
+        present(secondVC, animated: false, completion: nil)
     }
     
-    //Create a method to download the image (start the tasks
-    func downloadImage(from url: URL) {
-        print("Download Started")
-        getData(from: url) { data, response, error in
-            guard let data = data, error == nil else { return }
-            print(response?.suggestedFilename ?? url.lastPathComponent)
-            print("Download Finished")
-            DispatchQueue.main.async() {
-                self.setupIsBlurred(isBlurred: true)
-                self.handleShareButton()
-                self.activityIndicator.stopAnimating()
-                self.imageView.image = UIImage(data: data)
+    @objc func handlerRessetButton() {
+        
+        
+        
+    }
+        
+        func createPressedButton() {
+            pressendButton.setTitle("ClickMe", for: .normal)
+            pressendButton.setTitle("TouchMe", for: .highlighted)
+            pressendButton.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+            pressendButton.layer.cornerRadius = 15
+            pressendButton.layer.borderWidth = 1
+            pressendButton.layer.borderColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
+            pressendButton.clipsToBounds = true
+            pressendButton.translatesAutoresizingMaskIntoConstraints = false
+            pressendButton.addTarget(self, action: #selector(handlePressedButton), for: .touchUpInside)
+            view.addSubview(pressendButton)
+            
+            pressendButton.centerYAnchor.constraint(equalTo: label.centerYAnchor).isActive = true
+            pressendButton.heightAnchor.constraint(equalTo: label.heightAnchor, multiplier: 1).isActive = true
+            pressendButton.leftAnchor.constraint(equalTo: label.rightAnchor, constant: 5).isActive = true
+            pressendButton.widthAnchor.constraint(equalToConstant: 65).isActive = true
+        }
+        
+        func createRessetButton() {
+            ressetButton.setTitle("Resset", for: .normal)
+            ressetButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
+            ressetButton.tintColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
+            ressetButton.layer.cornerRadius = 15
+            ressetButton.layer.borderWidth = 1
+            ressetButton.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+            ressetButton.clipsToBounds = true
+            ressetButton.translatesAutoresizingMaskIntoConstraints = false
+            ressetButton.addTarget(self, action: #selector(handlerRessetButton), for: .touchUpInside)
+            view.addSubview(ressetButton)
+            
+            ressetButton.centerYAnchor.constraint(equalTo: label.centerYAnchor).isActive = true
+            ressetButton.heightAnchor.constraint(equalTo: label.heightAnchor, multiplier: 1).isActive = true
+            ressetButton.rightAnchor.constraint(equalTo: label.leftAnchor, constant: -5).isActive = true
+            ressetButton.widthAnchor.constraint(equalToConstant: 65).isActive = true
+        }
+        
+        func setupIsBlurred(isBlurred: Bool) {
+            if isBlurred {
+                if self.visualEffectView == nil {
+                    let blurEffect = UIBlurEffect(style: .light)
+                    let visualEffectView = UIVisualEffectView(effect: blurEffect)
+                    
+                    visualEffectView.frame = view.bounds
+                    view.addSubview(visualEffectView)
+                    self.visualEffectView = visualEffectView
+                }
+            } else {
+                visualEffectView?.removeFromSuperview()
+                visualEffectView = nil
+            }
+        }
+        
+        func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
+            URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
+        }
+        
+        //Create a method to download the image (start the tasks
+        func downloadImage(from url: URL) {
+            print("Download Started")
+            getData(from: url) { data, response, error in
+                guard let data = data, error == nil else { return }
+                print(response?.suggestedFilename ?? url.lastPathComponent)
+                print("Download Finished")
+                DispatchQueue.main.async() {
+                    self.setupIsBlurred(isBlurred: true)
+                    self.handleShareButton()
+                    self.activityIndicator.stopAnimating()
+                    self.imageView.image = UIImage(data: data)
+                }
             }
         }
     }
-}
-
-//Extension:
-extension UIImageView {
-    func downloaded(from url: URL, contentMode mode: UIViewContentMode = .scaleAspectFit) {
-        contentMode = mode
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard
-                let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
-                let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
-                let data = data, error == nil,
-                let image = UIImage(data: data)
-                else { return }
-            DispatchQueue.main.async() {
-                self.image = image
-            }
-            }.resume()
-    }
-    func downloaded(from link: String, contentMode mode: UIViewContentMode = .scaleAspectFit) {
-        guard let url = URL(string: link) else { return }
-        downloaded(from: url, contentMode: mode)
-    }
+    
+    //Extension:
+    extension UIImageView {
+        func downloaded(from url: URL, contentMode mode: UIViewContentMode = .scaleAspectFit) {
+            contentMode = mode
+            URLSession.shared.dataTask(with: url) { data, response, error in
+                guard
+                    let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
+                    let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
+                    let data = data, error == nil,
+                    let image = UIImage(data: data)
+                    else { return }
+                DispatchQueue.main.async() {
+                    self.image = image
+                }
+                }.resume()
+        }
+        func downloaded(from link: String, contentMode mode: UIViewContentMode = .scaleAspectFit) {
+            guard let url = URL(string: link) else { return }
+            downloaded(from: url, contentMode: mode)
+        }
 }
